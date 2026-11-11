@@ -41,7 +41,9 @@ The founder-provided Google Drive Tacit folder contained Startup Brief, System A
 
 `reference/` contains screenshots captured from `https://jedify.com/` during the task. This folder is excluded from Vercel deployment.
 
-The supplied design reference's public hero video, warehouse video, poster, and industry photographs are stored locally in `public/assets/`. Original names: `jdf-video-hero-v3.mp4`, `jdf-video-hiw-warehouse-v2.mp4`, `jdf-hero-poster-v2.jpg`, and `jdf-solutions-{financial-services-photo,technology-solar,pharma-cross,manufacturing-photo,supply-chain-warehouse}.jpg`. No Jedify logo, customer marks, testimonials, certification badges, tracking, or product copy is embedded in the site. Fonts are Inter and Space Grotesk from Google Fonts. The Tacit mark is an original simple T monogram.
+The founder-selected background footage is [Programmers at Work by cottonbro studio](https://www.pexels.com/video/programmers-at-work-6804114/), used under the [Pexels license](https://www.pexels.com/license/). `team-work.mp4` is a locally optimized H.264 version with no audio, shared by both background sections. `team-work.jpg` is an extracted fallback frame used by both videos and the reduced-motion layout. The old hero and warehouse videos have been removed.
+
+The supplied design reference's poster and industry photographs remain in `public/assets/`. Original names: `jdf-hero-poster-v2.jpg` and `jdf-solutions-{financial-services-photo,technology-solar,pharma-cross,manufacturing-photo,supply-chain-warehouse}.jpg`. No Jedify logo, customer marks, testimonials, certification badges, tracking, or product copy is embedded in the site. Fonts are Inter and Space Grotesk from Google Fonts. The Tacit mark is an original simple T monogram.
 
 ## Deploy
 
