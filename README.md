@@ -12,7 +12,7 @@ npm run check
 npm run dev
 ```
 
-The local website is served at `http://localhost:4173`. Source lives in `src/`; `scripts/build.mjs` generates `dist/`.
+The local website is served at `http://localhost:4173`. Stop the temporary preview server after browser checks. Source lives in `src/`; `scripts/build.mjs` generates `dist/`.
 
 ## Pages
 
@@ -31,7 +31,7 @@ The local website is served at `http://localhost:4173`. Source lives in `src/`; 
 
 ## Contact behavior
 
-Contact links use `nikshayyadav90@gmail.com`. The pilot form validates required fields and composes an email using `mailto:`. Visitors must send it from their email application. The website does not submit or persist form data and has no backend, analytics, advertising cookies, or third-party scripts. Motion preferences can be stored locally in the browser.
+General contact links and the pilot form address both `nikshayyadav90@gmail.com` and `akshitarora.iitd.ep@gmail.com`. Individual contact addresses are visible in the footer and pilot page. The pilot form validates required fields and composes an email using `mailto:`. Visitors must send it from their email application. The website does not submit or persist form data and has no backend, analytics, advertising cookies, or third-party scripts. Motion preferences can be stored locally in the browser.
 
 ## Content grounding
 
@@ -52,3 +52,16 @@ The supplied design reference's poster and industry photographs remain in `publi
 ## Validation
 
 The build and static checks cover every generated page, local asset, link, and anchor. Browser checks cover responsive document widths, labeled form inputs, menu controls, industry tabs, product-story navigation, disclosures, and contact destinations. Visual review uses the supplied reference screenshots and desktop/mobile static renders when the browser's screenshot service is unavailable.
+
+## Motion and interaction
+
+`src/motion.js` and `src/motion.css` implement the reference motion study using Tacit content:
+
+- A continuous source-name strip and a clipped, vertical hero word rotator.
+- Industry panels on an actual sliding track, including neighboring panels, drag/swipe support, keyboard controls, a six-second cycle, progress lines, and hover/focus pause.
+- Expanding workflow cards using illustrative examples in place of customer testimonials.
+- A video panel that grows from the page gutter to full width during native scrolling, with seven crossfading panels and staged answer cards.
+- Four learning steps with seven-second cycles, hover pause, smooth disclosure, a masked video, staged answer cards, progressive text, and an original isometric Tacit T over source tiles.
+- All automatic sequences stop while off screen, while the document is hidden, or when motion is paused. Reduced motion leaves the complete example visible with working manual controls.
+
+The videos and notes in `reference/` document the reference study; they are excluded from deployment. `main` remains the original production site, while the feature branch is deployed to the public review alias.

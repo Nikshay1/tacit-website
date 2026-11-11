@@ -64,7 +64,8 @@ $('#dismiss-announcement').addEventListener('click', () => {
 function updateHeader() {
   const announceHeight = announcement.hidden ? 0 : announcement.offsetHeight;
   document.documentElement.style.setProperty('--nav-offset', `${Math.max(0, announceHeight - scrollY)}px`);
-  const referencePoint = 70;
+  const navRect = $('.nav-bar').getBoundingClientRect();
+  const referencePoint = navRect.top + navRect.height / 2;
   const darkSection = $$('.dark').some(section => {
     const r = section.getBoundingClientRect();
     return r.top <= referencePoint && r.bottom > referencePoint;
@@ -79,63 +80,6 @@ addEventListener('scroll', () => {
 }, { passive: true });
 addEventListener('resize', () => { closeMenus(); updateHeader(); updateStatement(); });
 updateHeader();
-
-// Keyboard-accessible industry tabs.
-const tabs = $$('[data-industry]');
-function showIndustry(index, focus = false) {
-  tabs.forEach((tab, i) => {
-    const active = i === index;
-    tab.setAttribute('aria-selected', String(active));
-    tab.tabIndex = active ? 0 : -1;
-    const panel = document.getElementById(tab.getAttribute('aria-controls'));
-    panel.hidden = !active;
-    panel.classList.toggle('active', active);
-  });
-  if (focus) { tabs[index].focus(); tabs[index].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' }); }
-}
-tabs.forEach((tab, i) => {
-  tab.addEventListener('click', () => showIndustry(i));
-  tab.addEventListener('keydown', event => {
-    let next;
-    if (event.key === 'ArrowRight') next = (i + 1) % tabs.length;
-    if (event.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = tabs.length - 1;
-    if (next !== undefined) { event.preventDefault(); showIndustry(next, true); }
-  });
-});
-
-// The reference's seven-step product story, with manual navigation.
-const howSlides = [
-  ['One shared understanding<br>of your data.', 'The trusted tables, metric definitions, join paths, and business rules your analyst uses—brought together in a versioned knowledge layer.'],
-  ['Learn from the work<br>already happening.', 'Start with SQL history, saved questions, existing documentation, and the explanations your team gives every day.'],
-  ['Your expert stays<br>the source of truth.', 'Tacit drafts definitions and answers. Your data person reviews and corrects them before they become trusted context.'],
-  ['Every correction makes<br>the next answer better.', 'A fix becomes reusable knowledge, linked to the question and source that taught it. The same lesson should not need teaching twice.'],
-  ['Answers where<br>your team already asks.', 'A Slack-first experience for business questions, with the SQL and source tables visible. Additional channels follow pilot needs.'],
-  ['Your cloud.<br>Your control.', 'An own-cloud or dedicated India-region deployment is part of the pilot design, with read-only data access and a clear data flow.'],
-  ['Prove value on<br>your real questions.', 'Agree on a baseline together, then measure answer accuracy and the share of repeat questions handled without the analyst.']
-];
-let currentSlide = 0;
-function showSlide(index) {
-  currentSlide = (index + howSlides.length) % howSlides.length;
-  if (!$('#how-title')) return;
-  $('#how-title').innerHTML = howSlides[currentSlide][0];
-  $('#how-description').textContent = howSlides[currentSlide][1];
-  $('#how-count').textContent = `${String(currentSlide + 1).padStart(2, '0')} / 07`;
-  $$('[data-slide]').forEach((button, i) => {
-    button.classList.toggle('active', i === currentSlide);
-    button.setAttribute('aria-pressed', String(i === currentSlide));
-  });
-}
-$$('[data-slide]').forEach(button => button.addEventListener('click', () => showSlide(Number(button.dataset.slide))));
-$('[data-slide-prev]')?.addEventListener('click', () => showSlide(currentSlide - 1));
-$('[data-slide-next]')?.addEventListener('click', () => showSlide(currentSlide + 1));
-
-// Keep one context explanation open while leaving each native disclosure operable.
-$$('.learning-detail').forEach(details => details.addEventListener('toggle', () => {
-  if (!details.open) return;
-  $$('.learning-detail').forEach(other => { if (other !== details) other.open = false; });
-}));
 
 // Scroll-fill statement and subtle section reveals.
 const statement = $('[data-fill]');
@@ -160,20 +104,6 @@ if (!motionPaused && 'IntersectionObserver' in window) {
 }
 updateStatement();
 
-let rotatingIndex = 0;
-const rotatingWords = ['learns.', 'remembers.', 'answers.'];
-const rotatingWord = $('#rotating-word');
-setInterval(() => {
-  if (!rotatingWord || motionPaused || document.hidden) return;
-  rotatingWord.classList.add('exiting');
-  setTimeout(() => {
-    rotatingIndex = (rotatingIndex + 1) % rotatingWords.length;
-    rotatingWord.textContent = rotatingWords[rotatingIndex];
-    rotatingWord.classList.remove('exiting');
-    rotatingWord.classList.add('entering');
-    requestAnimationFrame(() => requestAnimationFrame(() => rotatingWord.classList.remove('entering')));
-  }, 400);
-}, 3600);
 const videos = $$('video');
 function applyMotionPreference() {
   document.body.classList.toggle('motion-paused', motionPaused);
@@ -187,6 +117,7 @@ function applyMotionPreference() {
     videoButton.firstElementChild.textContent = motionPaused ? '▷' : 'Ⅱ';
   }
   if (motionPaused) $$('[data-reveal]').forEach(el => el.classList.add('visible'));
+  window.dispatchEvent(new CustomEvent('tacit:motionchange', { detail: { paused: motionPaused } }));
 }
 function toggleMotion() {
   motionPaused = !motionPaused;
@@ -205,7 +136,7 @@ $('#pilot-form')?.addEventListener('submit', event => {
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const body = `Hi Tacit team,\n\nI’d like to discuss an eight-week pilot.\n\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nCompany: ${data.get('company')}\nData stack: ${data.get('stack')}\n\nWhat we’d like help with:\n${data.get('message')}\n`;
-  const url = `mailto:nikshayyadav90@gmail.com?subject=${encodeURIComponent(`Tacit pilot enquiry — ${data.get('company')}`)}&body=${encodeURIComponent(body)}`;
+  const url = `mailto:nikshayyadav90@gmail.com,akshitarora.iitd.ep@gmail.com?subject=${encodeURIComponent(`Tacit pilot enquiry — ${data.get('company')}`)}&body=${encodeURIComponent(body)}`;
   window.location.href = url;
   $('#form-status').textContent = 'Your email draft is ready in your email app. Please send it there to contact us. If it did not open, use the email link below.';
 });

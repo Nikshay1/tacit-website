@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "contacts": [
+    "nikshayyadav90@gmail.com",
+    "akshitarora.iitd.ep@gmail.com"
+  ],
+  "checks": {
+    "staticPages": 12,
+    "mobilePages": 11,
+    "mobileOverflow": false,
+    "keyboardTabSelection": true,
+    "pausedVideoPlayback": true,
+    "pausedHeroVisible": true,
+    "pausedManualLearningControls": true,
+    "learningSceneCompletesWhileHoverHeld": true
+  },
+  "scrollExpansionWidths": [
+    1106.87,
+    1206.3,
+    1265.29
+  ],
+  "nativePointerAutomation": "Unreliable in the shared browser; DOM pointer events, click handlers, keyboard events, recorded playback, and live timing inspection were used."
+}

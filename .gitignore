@@ -4,3 +4,4 @@ node_modules/
 .env*
 !.env.example
 reference/*preview.html
+reference/jedify-motion-research.js

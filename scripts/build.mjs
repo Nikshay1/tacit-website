@@ -6,6 +6,8 @@ await mkdir('dist', { recursive: true });
 await cp('public', 'dist', { recursive: true });
 await cp('src/style.css', 'dist/style.css');
 await cp('src/app.js', 'dist/app.js');
+await cp('src/motion.css', 'dist/motion.css');
+await cp('src/motion.js', 'dist/motion.js');
 for (const page of pages) {
   const dir = page.path === '/' ? 'dist' : `dist${page.path}`;
   await mkdir(dir, { recursive: true });

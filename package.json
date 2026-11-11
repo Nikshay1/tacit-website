@@ -6,6 +6,6 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "python3 -m http.server 4173 --bind 0.0.0.0 --directory dist",
-    "check": "node --check src/app.js && node --check src/site.mjs && node scripts/check.mjs"
+    "check": "node --check src/app.js && node --check src/motion.js && node --check src/site.mjs && node scripts/check.mjs"
   }
 }
